@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            name="Sample Category"
+            id="org.pdtextension.refactoring.ui.commands.category">
+      </category>
+      <command
+            name="Sample Command"
+            categoryId="org.pdtextension.refactoring.ui.commands.category"
+            id="org.pdtextension.refactoring.ui.commands.sampleCommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            commandId="org.pdtextension.refactoring.ui.commands.sampleCommand"
+            class="org.pdtextension.refactoring.ui.handlers.SampleHandler">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.pdtextension.refactoring.ui.commands.sampleCommand"
+            contextId="org.eclipse.ui.contexts.window"
+            sequence="M1+6"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               label="Sample Menu"
+               mnemonic="M"
+               id="org.pdtextension.refactoring.ui.menus.sampleMenu">
+            <command
+                  commandId="org.pdtextension.refactoring.ui.commands.sampleCommand"
+                  mnemonic="S"
+                  id="org.pdtextension.refactoring.ui.menus.sampleCommand">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="org.pdtextension.refactoring.ui.toolbars.sampleToolbar">
+            <command
+                  commandId="org.pdtextension.refactoring.ui.commands.sampleCommand"
+                  icon="icons/sample.gif"
+                  tooltip="Say hello world"
+                  id="org.pdtextension.refactoring.ui.toolbars.sampleCommand">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+
+</plugin>

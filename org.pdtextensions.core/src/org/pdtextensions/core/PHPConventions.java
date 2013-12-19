@@ -18,7 +18,13 @@ import org.eclipse.dltk.core.IModelStatus;
  */
 public final class PHPConventions {
     private static final Pattern PATTERN_FIELD_NAME = Pattern.compile("^\\$[a-zA-Z_\\x7f-\\xff\\u0100-\\uffff][a-zA-Z0-9_\\x7f-\\xff\\u0100-\\uffff]*$"); //$NON-NLS-1$
-    private static final Pattern PATTERN_LABEL = Pattern.compile("^[a-zA-Z_\\x7f-\\xff\\u0100-\\uffff][a-zA-Z0-9_\\x7f-\\xff\\u0100-\\uffff]*$"); //$NON-NLS-1$
+
+	/**
+	 * @since 0.20.0
+	 */
+	private static final Pattern PATTERN_NAMESPACE_NAME = Pattern.compile("^[a-zA-Z_\\x7f-\\xff\\u0100-\\uffff][a-zA-Z0-9_\\x7f-\\xff\\u0100-\\uffff]*$"); //$NON-NLS-1$
+
+	private static final Pattern PATTERN_LABEL = Pattern.compile("^[a-zA-Z_\\x7f-\\xff\\u0100-\\uffff][a-zA-Z0-9_\\x7f-\\xff\\u0100-\\uffff]*$"); //$NON-NLS-1$
 
 	public static IStatus validateConstantName(String name) {
 		return validateIdentifier(name);
@@ -34,6 +40,13 @@ public final class PHPConventions {
 
 	public static IStatus validateTypeName(String name) {
 		return validateIdentifier(name);
+	}
+
+	/**
+	 * @since 0.20.0
+	 */
+	public static IStatus validateNamespaceName(String name) {
+		return validateIdentifier(name, PATTERN_NAMESPACE_NAME);
 	}
 
 	public static IStatus validateIdentifier(String id, Pattern pattern) {

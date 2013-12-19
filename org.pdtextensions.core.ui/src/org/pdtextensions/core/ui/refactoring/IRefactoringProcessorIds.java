@@ -11,6 +11,11 @@ package org.pdtextensions.core.ui.refactoring;
  * @since 0.17.0
  */
 public interface IRefactoringProcessorIds {
+	/**
+	 * @since 0.20.0
+	 */
+	public static final String RENAME_NAMESPACE_PROCESSOR = "org.pdtextensions.core.ui.refactoring.renameNamespaceProcessor"; //$NON-NLS-1$
+
 	public static final String RENAME_TYPE_PROCESSOR = "org.pdtextensions.core.ui.refactoring.renameTypeProcessor"; //$NON-NLS-1$
 	public static final String RENAME_METHOD_PROCESSOR = "org.pdtextensions.core.ui.refactoring.renameMethodProcessor"; //$NON-NLS-1$
 	public static final String RENAME_PROPERTY_PROCESSOR = "org.pdtextensions.core.ui.refactoring.renamePropertyProcessor"; //$NON-NLS-1$

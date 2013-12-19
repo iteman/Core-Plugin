@@ -28,6 +28,11 @@ public class RefactoringCoreMessages extends NLS {
 	public static String RenameMethodRefactoring_name;
 	public static String RenameTypeRefactoring_name;
 
+	/**
+	 * @since 0.20.0
+	 */
+	public static String RenameNamespaceRefactoring_name;
+
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, RefactoringCoreMessages.class);
 	}

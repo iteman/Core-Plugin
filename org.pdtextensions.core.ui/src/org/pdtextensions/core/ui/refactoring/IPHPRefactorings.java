@@ -11,6 +11,11 @@ package org.pdtextensions.core.ui.refactoring;
  * @since 0.17.0
  */
 public interface IPHPRefactorings {
+	/**
+	 * @since 0.20.0
+	 */
+	public static final String RENAME_NAMESPACE = "org.pdtextensions.core.ui.refactoring.renameNamespace"; //$NON-NLS-1$
+
 	public static final String RENAME_TYPE = "org.pdtextensions.core.ui.refactoring.renameType"; //$NON-NLS-1$
 	public static final String RENAME_METHOD = "org.pdtextensions.core.ui.refactoring.renameMethod"; //$NON-NLS-1$;
 	public static final String RENAME_PROPERTY = "org.pdtextensions.core.ui.refactoring.renameProperty"; //$NON-NLS-1$

@@ -37,6 +37,7 @@ import org.eclipse.ltk.core.refactoring.participants.RenameRefactoring;
 import org.eclipse.ltk.ui.refactoring.RefactoringWizard;
 import org.eclipse.swt.widgets.Shell;
 import org.pdtextensions.internal.corext.refactoring.rename.RenameConstantProcessor;
+import org.pdtextensions.internal.corext.refactoring.rename.RenameNamespaceProcessor;
 import org.pdtextensions.internal.corext.refactoring.rename.RenamePropertyProcessor;
 import org.pdtextensions.internal.corext.refactoring.rename.RenameLocalVariableProcessor;
 import org.pdtextensions.internal.corext.refactoring.rename.RenameMethodProcessor;
@@ -85,6 +86,12 @@ public class RenameSupport {
 		this((ScriptRenameProcessor) processor, newName, flags);
 
 		initializeStarter(new RenameSourceModuleWizard(refactoring));
+	}
+
+	public RenameSupport(RenameNamespaceProcessor processor, String newName, int flags) throws CoreException {
+		this((ScriptRenameProcessor) processor, newName, flags);
+
+		initializeStarter(new RenameLocalVariableWizard(refactoring));
 	}
 
 	public RenameSupport(RenameTypeProcessor processor, String newName, int flags) throws CoreException {

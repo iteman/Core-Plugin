@@ -38,9 +38,10 @@ import org.pdtextensions.core.ui.refactoring.RefactoringMessages;
 import org.pdtextensions.core.ui.refactoring.RenameSupport;
 import org.pdtextensions.core.util.PDTModelUtils;
 import org.pdtextensions.internal.corext.refactoring.rename.RenameConstantProcessor;
-import org.pdtextensions.internal.corext.refactoring.rename.RenamePropertyProcessor;
 import org.pdtextensions.internal.corext.refactoring.rename.RenameLocalVariableProcessor;
 import org.pdtextensions.internal.corext.refactoring.rename.RenameMethodProcessor;
+import org.pdtextensions.internal.corext.refactoring.rename.RenameNamespaceProcessor;
+import org.pdtextensions.internal.corext.refactoring.rename.RenamePropertyProcessor;
 import org.pdtextensions.internal.corext.refactoring.rename.RenameStaticPropertyProcessor;
 import org.pdtextensions.internal.corext.refactoring.rename.RenameTypeProcessor;
 
@@ -158,16 +159,8 @@ public class RenamePHPElementAction extends SelectionDispatchAction {
 		case IModelElement.SOURCE_MODULE:
 			return RefactoringAvailabilityTester.isRenameAvailable((ISourceModule) element);
 		case IModelElement.TYPE:
-			// TODO Add namespace support like JDT
-			if (PHPFlags.isClass(((IType) element).getFlags())
-					|| PHPFlags.isInterface(((IType) element).getFlags())
-					|| PHPFlags.isTrait(((IType) element).getFlags())
-					) {
-				return RefactoringAvailabilityTester.isRenameAvailable((IType) element)
-							&& RefactoringAvailabilityTester.isRenameAvailable(((IMember) element).getSourceModule());
-			} else {
-				return false;
-			}
+			return RefactoringAvailabilityTester.isRenameAvailable((IType) element)
+						&& RefactoringAvailabilityTester.isRenameAvailable(((IMember) element).getSourceModule());
 		case IModelElement.METHOD:
 			return RefactoringAvailabilityTester.isRenameAvailable((IMethod) element)
 						&& RefactoringAvailabilityTester.isRenameAvailable(((IMember) element).getSourceModule());
@@ -191,7 +184,11 @@ public class RenamePHPElementAction extends SelectionDispatchAction {
 		case IModelElement.SOURCE_MODULE:
 			return new RenameSupport(new RenameSourceModuleProcessor((ISourceModule) element), newName, flags);
 		case IModelElement.TYPE:
-			return new RenameSupport(new RenameTypeProcessor((IType) element), newName, flags);
+			if (PHPFlags.isNamespace(((IType) element).getFlags())) {
+				return new RenameSupport(new RenameNamespaceProcessor((IType) element), newName, flags);
+			} else {
+				return new RenameSupport(new RenameTypeProcessor((IType) element), newName, flags);
+			}
 		case IModelElement.METHOD:
 			return new RenameSupport(new RenameMethodProcessor((IMethod) element), newName, flags);
 		case IModelElement.FIELD:

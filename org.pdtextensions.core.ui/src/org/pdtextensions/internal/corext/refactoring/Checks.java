@@ -61,6 +61,10 @@ public class Checks {
 		return checkName(name, PHPConventions.validateTypeName(name));
 	}
 
+	public static RefactoringStatus checkNamespaceName(String name) {
+		return checkName(name, PHPConventions.validateNamespaceName(name));
+	}
+
 	public static boolean isAvailable(IModelElement modelElement) throws ModelException {
 		if (modelElement == null) return false;
 		if (!modelElement.exists()) return false;

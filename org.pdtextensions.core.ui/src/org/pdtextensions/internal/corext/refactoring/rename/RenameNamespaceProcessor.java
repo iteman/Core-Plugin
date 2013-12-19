@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -20,7 +21,6 @@ import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.dltk.ast.declarations.ModuleDeclaration;
-import org.eclipse.dltk.core.DLTKContentTypeManager;
 import org.eclipse.dltk.core.IModelElement;
 import org.eclipse.dltk.core.ISourceModule;
 import org.eclipse.dltk.core.IType;
@@ -42,6 +42,7 @@ import org.eclipse.php.internal.core.compiler.ast.nodes.FullyQualifiedReference;
 import org.eclipse.php.internal.core.compiler.ast.visitor.PHPASTVisitor;
 import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.ReplaceEdit;
+import org.pdtextensions.core.PHPNamespace;
 import org.pdtextensions.core.PHPType;
 import org.pdtextensions.core.ui.PEXUIPlugin;
 import org.pdtextensions.core.ui.refactoring.IPHPRefactorings;
@@ -51,11 +52,11 @@ import org.pdtextensions.internal.corext.refactoring.Checks;
 import org.pdtextensions.internal.corext.refactoring.RefactoringCoreMessages;
 
 /**
- * @since 0.17.0
+ * @since 0.20.0
  */
 @SuppressWarnings("restriction")
-public class RenameTypeProcessor extends PHPRenameProcessor {
-	public RenameTypeProcessor(IType modelElement) {
+public class RenameNamespaceProcessor extends PHPRenameProcessor {
+	public RenameNamespaceProcessor(IType modelElement) {
 		super(modelElement);
 	}
 
@@ -66,12 +67,12 @@ public class RenameTypeProcessor extends PHPRenameProcessor {
 
 	@Override
 	public String getIdentifier() {
-		return IRefactoringProcessorIds.RENAME_TYPE_PROCESSOR;
+		return IRefactoringProcessorIds.RENAME_NAMESPACE_PROCESSOR;
 	}
 
 	@Override
 	public String getProcessorName() {
-		return RefactoringCoreMessages.RenameTypeRefactoring_name;
+		return RefactoringCoreMessages.RenameNamespaceRefactoring_name;
 	}
 
 	@Override
@@ -86,13 +87,8 @@ public class RenameTypeProcessor extends PHPRenameProcessor {
 		try {
 			DynamicValidationRefactoringChange result = new DynamicValidationRefactoringChange(createRefactoringDescriptor(), getProcessorName(), changeManager.getAllChanges());
 			IResource resource = modelElement.getResource();
-			if (resource instanceof IFile && willRenameCU((IFile) resource)) {
-				result.add(
-					new RenameResourceChange(
-						resource.getFullPath(),
-						resource.getFileExtension().isEmpty() ? getNewElementName() : getNewElementName() + "." + resource.getFileExtension() //$NON-NLS-1$
-					)
-				);
+			if (resource instanceof IFolder && willRenameCU((IFolder) resource)) {
+				result.add(new RenameResourceChange(resource.getFullPath(), getNewElementName()));
 			}
 			pm.worked(1);
 
@@ -109,8 +105,7 @@ public class RenameTypeProcessor extends PHPRenameProcessor {
 		result.addAll(Arrays.asList(super.getChangedFiles()));
 
 		IResource resource = modelElement.getResource();
-		if (resource instanceof IFile && willRenameCU((IFile) resource)) {
-			result.add((IFile) resource);
+		if (resource instanceof IFolder && willRenameCU((IFolder) resource)) {
 		}
 
 		return result.toArray(new IFile[result.size()]);
@@ -118,7 +113,7 @@ public class RenameTypeProcessor extends PHPRenameProcessor {
 
 	@Override
 	protected String getRefactoringId() {
-		return IPHPRefactorings.RENAME_TYPE;
+		return IPHPRefactorings.RENAME_NAMESPACE;
 	}
 
 	@Override
@@ -192,10 +187,9 @@ public class RenameTypeProcessor extends PHPRenameProcessor {
 		return new RefactoringStatus();
 	}
 
-	private boolean willRenameCU(IFile file) throws CoreException {
-		if (file.isLinked()) return false;
-		if (!new PHPType((IType) modelElement).inResourceWithSameName()) return false;
-		if (!DLTKContentTypeManager.isValidFileNameForContentType(PHPLanguageToolkit.getDefault(), getNewElementName() + "." + file.getFileExtension())) return false; //$NON-NLS-1$
+	private boolean willRenameCU(IFolder folder) throws CoreException {
+		if (folder.isLinked()) return false;
+		if (!new PHPNamespace((IType) modelElement).inResourceWithSameName()) return false;
 
 		return true;
 	}

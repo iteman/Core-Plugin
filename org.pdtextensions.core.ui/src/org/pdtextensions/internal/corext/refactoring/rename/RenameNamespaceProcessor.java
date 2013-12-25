@@ -62,7 +62,7 @@ public class RenameNamespaceProcessor extends PHPRenameProcessor {
 
 	@Override
 	public RefactoringStatus checkNewElementName(String newName) throws CoreException {
-		return Checks.checkTypeName(newName);
+		return Checks.checkNamespaceName(newName);
 	}
 
 	@Override

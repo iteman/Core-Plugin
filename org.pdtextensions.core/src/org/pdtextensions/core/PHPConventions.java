@@ -22,7 +22,7 @@ public final class PHPConventions {
 	/**
 	 * @since 0.20.0
 	 */
-	private static final Pattern PATTERN_NAMESPACE_NAME = Pattern.compile("^[a-zA-Z_\\x7f-\\xff\\u0100-\\uffff][a-zA-Z0-9_\\x7f-\\xff\\u0100-\\uffff]*$"); //$NON-NLS-1$
+	private static final Pattern PATTERN_NAMESPACE_NAME = Pattern.compile("^[a-zA-Z_\\x7f-\\xff\\u0100-\\uffff][a-zA-Z0-9_\\x7f-\\xff\\u0100-\\uffff]*(\\\\[a-zA-Z_\\x7f-\\xff\\u0100-\\uffff][a-zA-Z0-9_\\x7f-\\xff\\u0100-\\uffff]*)*$"); //$NON-NLS-1$
 
 	private static final Pattern PATTERN_LABEL = Pattern.compile("^[a-zA-Z_\\x7f-\\xff\\u0100-\\uffff][a-zA-Z0-9_\\x7f-\\xff\\u0100-\\uffff]*$"); //$NON-NLS-1$
 
